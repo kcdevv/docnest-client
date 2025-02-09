@@ -1,10 +1,12 @@
 import React, { useRef } from "react";
 import { Link } from "react-router-dom";
+import Input from "../ui/Input";
 
 const SignUp: React.FC = () => {
   const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const idRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -12,6 +14,7 @@ const SignUp: React.FC = () => {
       name: nameRef.current?.value,
       email: emailRef.current?.value,
       password: passwordRef.current?.value,
+      userId: idRef.current?.value,
     };
     console.log("Signup Data:", userData);
   };
@@ -23,20 +26,10 @@ const SignUp: React.FC = () => {
         <p className="text-center text-gray-600 mt-2">Sign up to get started</p>
 
         <form className="mt-6 space-y-5" onSubmit={handleSubmit}>
-          <div>
-            <label className="block text-gray-700 font-medium">Full Name</label>
-            <input ref={nameRef} type="text" className="w-full  focus:outline-none p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter your name" required />
-          </div>
-
-          <div>
-            <label className="block text-gray-700 font-medium">Email Address</label>
-            <input ref={emailRef} type="email" className="w-full p-3  focus:outline-none bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter your email" required />
-          </div>
-
-          <div>
-            <label className="block text-gray-700 font-medium">Password</label>
-            <input ref={passwordRef} type="password" className="w-full  focus:outline-none p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter your password" required />
-          </div>
+          <Input label="Name" placeholder="Virat Kohli" refV={nameRef} />
+          <Input label="User ID" placeholder="viratkohli" refV={idRef} />
+          <Input label="Email" type="email" placeholder="viratkohli@abcd.com" refV={emailRef} />
+          <Input label="Password" type="password" placeholder="********" refV={passwordRef} />
 
           <button type="submit" className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-500 transition duration-300">
             Sign Up

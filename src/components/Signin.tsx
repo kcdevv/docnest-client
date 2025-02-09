@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { Link } from "react-router-dom";
+import Input from "../ui/Input";
 
 const SignIn: React.FC = () => {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -21,15 +22,8 @@ const SignIn: React.FC = () => {
         <p className="text-center text-gray-600 mt-2">Sign in to continue</p>
 
         <form className="mt-6 space-y-5" onSubmit={handleSubmit}>
-          <div>
-            <label className="block text-gray-700 font-medium">Email Address</label>
-            <input ref={emailRef} type="email" className="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:outline-none focus:ring-blue-500" placeholder="Enter your email" required />
-          </div>
-
-          <div>
-            <label className="block text-gray-700 font-medium">Password</label>
-            <input ref={passwordRef} type="password" className="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:outline-none focus:ring-blue-500" placeholder="Enter your password" required />
-          </div>
+          <Input placeholder="viratkohli" type="text" refV={emailRef} label="Email or User ID" />
+          <Input placeholder="********" type="password" refV={passwordRef} label="Password" />
 
           <button type="submit" className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-500 transition duration-300">
             Sign In
