@@ -1,7 +1,8 @@
-const Dashboard = () => {
-  return (
-    <div>Dashboard</div>
-  )
-}
+import { useUser } from "@clerk/clerk-react";
 
-export default Dashboard
+const Dashboard = () => {
+  const { user } = useUser();
+  return <div>{user?.fullName}</div>;
+};
+
+export default Dashboard;

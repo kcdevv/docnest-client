@@ -12,7 +12,7 @@ const Home: React.FC = () => {
         <p className="mt-4 text-lg text-gray-700 max-w-2xl">
           Securely upload your files and access them from anywhere, on any device.
         </p>
-        <Link to={"/signin"}><button className="mt-6 px-8 py-3 bg-blue-600 text-white font-semibold rounded-xl shadow-lg hover:bg-blue-700 transition duration-300">
+        <Link to={"/signup"}><button className="mt-6 px-8 py-3 bg-blue-600 text-white font-semibold rounded-xl shadow-lg hover:bg-blue-700 transition duration-300">
           Try Now
         </button></Link>
       </header>
