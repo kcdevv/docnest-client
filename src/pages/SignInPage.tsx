@@ -10,7 +10,7 @@ const SignInPage = () => {
             submitButton: "bg-green-600 hover:bg-green-700 text-white",
           },
         }}
-        afterSignInUrl={"/dashboard"}
+        forceRedirectUrl={"/dashboard"}
       />
     </div>
   );
