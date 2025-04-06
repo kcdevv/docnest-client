@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useAuth } from "@clerk/clerk-react";
 
 const Upload = () => {
   const [file, setFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState<number | null>(null);
   const [uploadedUrl, setUploadedUrl] = useState<string | null>(null);
+  const { getToken } = useAuth();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -19,15 +21,22 @@ const Upload = () => {
     }
 
     try {
-      // Step 1: Get the presigned URL
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/upload`, {
-        fileName: file.name,
-        fileType: file.type,
-      });
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/file/puturl`,
+        {
+          fileName: file.name,
+          fileType: file.type,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${await getToken()}`,
+          },
+        }
+      );
 
       const { url } = response.data;
-
-      // Step 2: Upload the file to S3 using the presigned URL
+  
+  
       const uploadResponse = await axios.put(url, file, {
         headers: {
           "Content-Type": file.type,
@@ -41,7 +50,17 @@ const Upload = () => {
       });
 
       if (uploadResponse.status === 200) {
-        setUploadedUrl(url.split("?")[0]); // The uploaded file URL without query parameters
+        setUploadedUrl(url.split("?")[0]);
+        await axios.post(
+          `${import.meta.env.VITE_BACKEND_URL}/file/save-file`,
+          {
+            name: file.name,
+            type: file.type,
+            size: file.size,
+            url: url.split("?")[0],
+          }
+        );
+        alert("File uploaded successful");
       }
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -64,9 +83,7 @@ const Upload = () => {
         Upload
       </button>
       {uploadProgress !== null && (
-        <p className="mt-2 text-sm">
-          Upload Progress: {uploadProgress}%
-        </p>
+        <p className="mt-2 text-sm">Upload Progress: {uploadProgress}%</p>
       )}
       {uploadedUrl && (
         <p className="mt-4 text-sm">
